@@ -1,36 +1,6 @@
 /**
- * AppContext provides a single shared notification store to the entire app.
- * All screens consume state via useAppContext() instead of creating separate
- * store instances.
+ * Re-export StoreProvider as AppContextProvider for use in App.tsx.
+ * All screens should use useNotificationStore() which requires StoreProvider
+ * to be mounted in the component tree (done in App.tsx via AppContextProvider).
  */
-import React, { createContext, useContext } from 'react';
-import { useNotificationStore, NotificationStoreActions } from './notificationStore';
-import { AppState } from '../types';
-
-interface AppContextValue {
-  state: AppState;
-  actions: NotificationStoreActions;
-}
-
-const AppContext = createContext<AppContextValue | null>(null);
-
-export function AppContextProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}): React.JSX.Element {
-  const [state, actions] = useNotificationStore();
-  return (
-    <AppContext.Provider value={{ state, actions }}>
-      {children}
-    </AppContext.Provider>
-  );
-}
-
-export function useAppContext(): AppContextValue {
-  const ctx = useContext(AppContext);
-  if (!ctx) {
-    throw new Error('useAppContext must be used inside AppContextProvider');
-  }
-  return ctx;
-}
+export { StoreProvider as AppContextProvider } from './notificationStore';

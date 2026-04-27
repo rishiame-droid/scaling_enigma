@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { fetchAllNotifications, filterByService, countUnread } from '../services/aggregator';
-import { useAppContext } from '../store/AppContext';
+import { useNotificationStore } from '../store/notificationStore';
 import { markGitHubNotificationRead } from '../services/github';
 import { NotificationCard } from '../components/NotificationCard';
 import { EmptyState } from '../components/EmptyState';
@@ -25,7 +25,7 @@ const FILTERS: { label: string; value: FilterType }[] = [
 ];
 
 export function HomeScreen() {
-  const { state, actions } = useAppContext();
+  const [state, actions] = useNotificationStore();
   const insets = useSafeAreaInsets();
 
   const load = useCallback(async () => {
